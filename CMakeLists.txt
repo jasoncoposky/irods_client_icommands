@@ -83,6 +83,7 @@ set(
   istream
   isysmeta
   iticket
+  itorch
   itrim
   iunreg
   iuserinfo
@@ -105,6 +106,8 @@ foreach(EXECUTABLE ${IRODS_CLIENT_ICOMMANDS_EXECUTABLES})
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_program_options.so
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/lib/libboost_system.so
     ${IRODS_EXTERNALS_FULLPATH_ZMQ}/lib/libzmq.so
+    dl
+    pthread
     )
   target_include_directories(
     ${EXECUTABLE}
