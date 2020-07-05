@@ -82,28 +82,30 @@ int main(int argc, char* argv[])
 
     auto rep = invoke(comm, req);
 
+
     std::string x{};
+#if 1
+    uint32_t prog{};
     while(ie::states::complete != x &&
           ie::states::failed   != x) {
-        uint32_t prog{};
 
-        usleep(1000);
+        usleep(100);
 
         json req{};
-/*
-        if(prog > 200) {
+
+        if(prog > 30) {
             req = {
                 {ie::commands::request,  ie::endpoints::command},
                 {ie::constants::command, ie::commands::cancel}, // shut it down
                 {ie::constants::plugin,  "recursive_remove"}};
         }
         else {
-*/
+
             req = {
                 {ie::commands::request,  ie::endpoints::command},
                 {ie::constants::command, ie::commands::progress},
                 {ie::constants::plugin,  "recursive_remove"}};
-//        }
+        }
 
         auto rep = invoke(comm, req);
 
@@ -114,9 +116,18 @@ int main(int argc, char* argv[])
         catch(...) {
         }
 
-
         std::cout << "status: " << x << "\n";
     }
+#else
+
+        try {
+            x = get<std::string>(ie::constants::status, rep);
+        }
+        catch(...) {
+        }
+        std::cout << "status: " << x << "\n";
+#endif
+
 
     rcDisconnect(comm);
 
